@@ -1,0 +1,96 @@
+const express = require('express'); // Importa el módulo Express.js
+const app = express(); // Crea una nueva instancia de la aplicación Express
+const http = require('http').Server(app); // Crea un servidor HTTP y pasa la instancia de Express como argumento
+const io = require('socket.io')(http); // Crea una nueva instancia de Socket.IO y la vincula al servidor HTTP
+const path = require('path'); // Importa el módulo path de Node.js para manejar rutas de archivos
+
+// Configurar el directorio público
+app.use(express.static(path.join(__dirname, 'public'))); // Configura el directorio 'public' 
+como directorio estático para servir archivos estáticos
+
+// Ruta para servir el archivo index.html
+app.get('/', (req, res) => { // Define una ruta para la URL raíz
+
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Envía el archivo 'index.html' 
+  ubicado en el directorio 'public'
+});
+
+// Función para generar datos aleatorios
+function generateRandomData() { // Define una función para generar datos aleatorios de 
+temperatura y humedad
+
+  const temperature = (Math.random() * (30 - 20) + 20).toFixed(2); // Genera un valor aleatorio 
+  de temperatura entre 20 y 30 grados
+
+  const humidity = (Math.random() * (60 - 40) + 40).toFixed(2); // Genera un valor aleatorio de
+   humedad entre 40 y 60 por ciento
+
+  return `Temperatura: ${temperature}°C, Humedad: ${humidity}%`; // Retorna una cadena con los valores
+  de temperatura y humedad
+}
+
+// Manejar las conexiones de Socket.IO
+io.on('connection', (socket) => { // Detecta cuando un nuevo cliente se conecta a Socket.IO
+  console.log('Nuevo cliente conectado'); // Imprime un mensaje en la consola indicando que un nuevo 
+  cliente se ha conectado
+
+  // Manejar comandos del cliente
+  socket.on('command', (command) => { // Detecta cuando el cliente envía un comando a través de Socket.IO
+    console.log(`Comando recibido: ${command}`); // Imprime el comando recibido en la consola
+
+    // Procesar el comando y enviar una respuesta
+    let response; // Variable para almacenar la respuesta
+    switch (command) { // Evalúa el comando recibido
+      case 'status':
+        response = 'El sistema está funcionando correctamente.'; // Respuesta para el comando 'status'
+        break;
+      case 'data':
+        response = generateRandomData(); // Respuesta para el comando 'data' (llama a la función generateRandomData)
+        break;
+      default:
+        response = 'Comando no reconocido.'; // Respuesta por defecto si el comando no es reconocido
+    }
+
+    // Enviar la respuesta al cliente
+    socket.emit('response', response); // Envía la respuesta al cliente a través de Socket.IO
+  });
+
+  // Manejar la desconexión del cliente
+  socket.on('disconnect', () => { // Detecta cuando un cliente se desconecta de Socket.IO
+    console.log('Cliente desconectado'); // Imprime un mensaje en la consola indicando que un 
+    cliente se ha desconectado
+  });
+});
+
+// Iniciar el servidor
+const PORT = process.env.PORT || 3000; // Obtiene el puerto desde una variable de entorno
+ o usa 3000 como valor predeterminado
+
+http.listen(PORT, () => { // Inicia el servidor HTTP en el puerto especificado
+
+  console.log(`Servidor escuchando en http://localhost:${PORT}`); // Imprime un mensaje en la
+   consola indicando que el servidor está escuchando en la dirección y puerto especificados
+});
+
+
+
+
+Este código crea un servidor web utilizando Express.js y Socket.IO. Primero,
+ se configura el directorio public como directorio para servir archivos estáticos, 
+ y se define una ruta para servir el archivo index.html.
+
+Luego, se define una función generateRandomData() que genera datos aleatorios de
+ temperatura y humedad.
+
+A continuación, se maneja la conexión de Socket.IO. Cuando un nuevo cliente se conecta,
+ se registra un evento de conexión y se imprime un mensaje en la consola. Luego, se escucha
+  el evento command que envía el cliente. Dependiendo del comando recibido (status o data),
+   se genera una respuesta (ya sea un mensaje estático o los datos aleatorios generados por generateRandomData()).
+    La respuesta se envía de vuelta al cliente a través del evento response de Socket.IO. También se maneja
+     el evento disconnect para detectar cuando un cliente se desconecta.
+
+Finalmente, el servidor HTTP se inicia y comienza a escuchar en el puerto especificado
+ (obtenido desde una variable de entorno o el puerto 3000 por defecto).
+
+En resumen, este código crea un servidor web que sirve un archivo index.html y maneja las
+ conexiones de Socket.IO para procesar comandos enviados por los clientes y enviar respuestas en tiempo real.

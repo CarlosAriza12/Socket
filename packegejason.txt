@@ -1,0 +1,13 @@
+{
+  "name": "monitoring-system",   // Este es el nombre del proyecto
+  "version": "1.0.0",   // Esta es la versión actual del proyecto
+  "description": "Sistema de monitoreo de sensores remotos",   // Esta es una breve descripción del proyecto
+  "main": "server.js",   // Esta línea indica que el archivo de entrada principal es server.js
+  "scripts": {   // Esta sección define los scripts que se pueden ejecutar
+    "start": "node server.js"   // Este script inicia la aplicación ejecutando el archivo server.js con Node.js
+  },
+  "dependencies": {   // Esta sección enumera las dependencias del proyecto (paquetes externos necesarios)
+    "express": "^4.17.1",  // Express.js es un framework web para Node.js
+    "socket.io": "^4.0.1"  // Socket.IO es una biblioteca para habilitar la comunicación en tiempo real bidireccional
+  }
+}

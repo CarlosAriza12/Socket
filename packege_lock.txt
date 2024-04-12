@@ -1,0 +1,21 @@
+Este código es un proyecto de Node.js que utiliza varios paquetes y bibliotecas para crear un sistema de
+ monitoreo de sensores remotos.
+
+El archivo package.json contiene metadatos sobre el proyecto, como su nombre, 
+versión y dependencias. En este caso, el proyecto depende de Express.js y Socket.IO.
+
+Express.js es un framework web popular para Node.js que facilita la creación de 
+aplicaciones web y API. Socket.IO es una biblioteca que permite la comunicación en tiempo real 
+bidireccional basada en eventos entre clientes y servidores.
+
+El archivo package-lock.json registra las versiones exactas de todos los paquetes instalados y sus dependencias
+ anidadas, lo que garantiza que siempre se instalen las mismas versiones en diferentes entornos.
+
+El proyecto probablemente utiliza Express.js para manejar las solicitudes HTTP y enrutar 
+las solicitudes a los controladores correspondientes. Socket.IO se utilizaría para establecer una 
+conexión bidireccional en tiempo real con los sensores remotos, lo que permitiría enviar y recibir 
+datos de forma eficiente.
+
+En resumen, este proyecto es una aplicación de Node.js que combina Express.js para el 
+manejo de solicitudes HTTP y Socket.IO para la comunicación en tiempo real con sensores remotos, lo que
+ permite crear un sistema de monitoreo en tiempo real.
